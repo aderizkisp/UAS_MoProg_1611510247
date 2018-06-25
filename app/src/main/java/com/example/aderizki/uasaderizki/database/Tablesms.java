@@ -1,4 +1,4 @@
-package com.example.enobyte.uasmainurrahman.database;
+package com.example.aderizki.uasaderizki.database;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;

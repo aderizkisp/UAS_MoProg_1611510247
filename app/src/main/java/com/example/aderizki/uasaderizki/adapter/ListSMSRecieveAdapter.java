@@ -1,25 +1,26 @@
-package com.example.enobyte.uasmainurrahman.adapter;
+package com.example.aderizki.uasaderizki.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.enobyte.uasmainurrahman.R;
-import com.example.enobyte.uasmainurrahman.database.Tablesms;
+import com.example.aderizki.uasaderizki.DetailReadSMS;
+import com.example.aderizki.uasaderizki.R;
+import com.example.aderizki.uasaderizki.database.Tablesms;
 
 import java.util.List;
 
-public class ListSMSDetailAdapter extends RecyclerView.Adapter<ListSMSDetailAdapter.Holder> {
+public class ListSMSRecieveAdapter extends RecyclerView.Adapter<ListSMSRecieveAdapter.Holder> {
     private List<Tablesms> listData;
     private Activity context;
     private View itemLayoutView;
 
-    public ListSMSDetailAdapter(Activity context, List<Tablesms> listData) {
+    public ListSMSRecieveAdapter(Activity context, List<Tablesms> listData) {
         this.listData = listData;
         this.context = context;
     }
@@ -27,27 +28,25 @@ public class ListSMSDetailAdapter extends RecyclerView.Adapter<ListSMSDetailAdap
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_listdetailsms,
+        itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_listsms,
                 parent, false);
         Holder holder = new Holder(itemLayoutView);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Holder holder, int position) {
+    public void onBindViewHolder(@NonNull final Holder holder, int position) {
         final Tablesms itemsms = listData.get(position);
-        holder.from.setText(itemsms.getNumber());
+        holder.number.setText(itemsms.getNumber());
         holder.content.setText(itemsms.getSmstext());
-        if (itemsms.getFrom().equalsIgnoreCase("r")){
-            holder.from.setText(itemsms.getNumber());
-            holder.from.setGravity(Gravity.LEFT);
-            holder.content.setGravity(Gravity.LEFT);
-
-        }else {
-            holder.from.setText("Me");
-            holder.from.setGravity(Gravity.RIGHT);
-            holder.content.setGravity(Gravity.RIGHT);
-        }
+        itemLayoutView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, DetailReadSMS.class);
+                i.putExtra("phone", holder.number.getText().toString());
+                context.startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -56,10 +55,10 @@ public class ListSMSDetailAdapter extends RecyclerView.Adapter<ListSMSDetailAdap
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        private TextView from, content;
+        private TextView number, content;
         public Holder(View itemView) {
             super(itemView);
-            from = itemView.findViewById(R.id.from);
+            number = itemView.findViewById(R.id.name);
             content = itemView.findViewById(R.id.content);
         }
     }
